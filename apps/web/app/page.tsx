@@ -10,12 +10,14 @@ import { BrandLogos } from "@/components/landing/brand-logos";
 import { Newsletter } from "@/components/landing/newsletter";
 import { Footer } from "@/components/landing/footer";
 import { AIAssistant } from "@/components/landing/ai-assistant";
+import { BackgroundEffects } from "@/components/landing/background-effects";
 
 function SectionTransition() {
   return (
-    <div className="relative h-24 w-full overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-primary/[0.015] to-transparent" />
-      <div className="absolute left-1/2 top-1/2 h-px w-1/3 -translate-x-1/2 -translate-y-1/2 bg-gradient-to-r from-transparent via-primary/15 to-transparent" />
+    <div className="relative h-20 w-full overflow-hidden" aria-hidden="true">
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-primary/[0.012] to-transparent" />
+      <div className="absolute left-1/2 top-1/2 h-px w-1/4 -translate-x-1/2 -translate-y-1/2 bg-gradient-to-r from-transparent via-primary/10 to-transparent" />
+      <div className="absolute left-1/2 top-1/2 h-20 w-px -translate-x-1/2 -translate-y-1/2 bg-gradient-to-b from-transparent via-primary/[0.03] to-transparent" />
     </div>
   );
 }
@@ -23,6 +25,7 @@ function SectionTransition() {
 export default function HomePage() {
   return (
     <>
+      <BackgroundEffects />
       <Navbar />
       <main>
         <Hero />

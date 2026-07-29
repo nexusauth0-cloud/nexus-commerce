@@ -1,9 +1,9 @@
 "use client"
 
 import { useState } from "react"
-import { motion, useScroll, useTransform } from "framer-motion"
+import { motion } from "framer-motion"
 import Image from "next/image"
-import { Heart, ShoppingBag, Eye, Star, Sparkles } from "lucide-react"
+import { Heart, ShoppingBag, Eye, Star, Sparkles, Truck, Clock, ChevronDown } from "lucide-react"
 import { Button } from "@nexus/ui/button"
 import { Badge } from "@nexus/ui/badge"
 
@@ -19,6 +19,8 @@ const products = [
     image: "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=800&q=85",
     badge: "Best Seller",
     aiScore: 97,
+    inStock: true,
+    delivery: "Free · Dec 24",
   },
   {
     id: 2,
@@ -31,6 +33,8 @@ const products = [
     image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=800&q=85",
     badge: null,
     aiScore: 95,
+    inStock: true,
+    delivery: "Free · Dec 22",
   },
   {
     id: 3,
@@ -43,6 +47,8 @@ const products = [
     image: "https://images.unsplash.com/photo-1552820728-8b83bb6b10f7?w=800&q=85",
     badge: "New",
     aiScore: 92,
+    inStock: true,
+    delivery: "Free · Dec 26",
   },
   {
     id: 4,
@@ -55,6 +61,8 @@ const products = [
     image: "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=800&q=85",
     badge: "Premium",
     aiScore: 93,
+    inStock: true,
+    delivery: "Free · Dec 28",
   },
   {
     id: 5,
@@ -67,6 +75,8 @@ const products = [
     image: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=800&q=85",
     badge: "Trending",
     aiScore: 91,
+    inStock: true,
+    delivery: "Free · Dec 21",
   },
   {
     id: 6,
@@ -79,6 +89,8 @@ const products = [
     image: "https://images.unsplash.com/photo-1556909114-f6e8ad00cd01?w=800&q=85",
     badge: "Best Seller",
     aiScore: 94,
+    inStock: false,
+    delivery: "Back in stock soon",
   },
   {
     id: 7,
@@ -91,6 +103,8 @@ const products = [
     image: "https://images.unsplash.com/photo-1522337360788-47b13e3f0db0?w=800&q=85",
     badge: "New",
     aiScore: 90,
+    inStock: true,
+    delivery: "Free · Dec 23",
   },
   {
     id: 8,
@@ -103,6 +117,8 @@ const products = [
     image: "https://images.unsplash.com/photo-1579586337278-3befd40fd17a?w=800&q=85",
     badge: null,
     aiScore: 94,
+    inStock: true,
+    delivery: "Free · Dec 27",
   },
 ]
 
@@ -125,8 +141,7 @@ const cardVariants = {
 
 export function FeaturedProducts() {
   const [wishlist, setWishlist] = useState<Set<number>>(new Set())
-  const { scrollYProgress } = useScroll()
-  const y = useTransform(scrollYProgress, [0, 1], [0, -50])
+  const [addedToCart, setAddedToCart] = useState<Set<number>>(new Set())
 
   function toggleWishlist(id: number) {
     setWishlist((prev) => {
@@ -137,9 +152,19 @@ export function FeaturedProducts() {
     })
   }
 
+  function handleAddToCart(id: number) {
+    setAddedToCart((prev) => new Set(prev).add(id))
+    setTimeout(() => {
+      setAddedToCart((prev) => {
+        const next = new Set(prev)
+        next.delete(id)
+        return next
+      })
+    }, 2000)
+  }
+
   return (
-    <section className="relative overflow-hidden py-24">
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(0,217,255,0.03),transparent_50%)]" />
+    <section className="relative overflow-hidden py-24" aria-labelledby="featured-heading">
       <div className="container-wide">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -152,7 +177,7 @@ export function FeaturedProducts() {
             <Sparkles className="mr-1 h-3 w-3" />
             AI Curated Selection
           </Badge>
-          <h2 className="font-sans text-4xl font-bold tracking-tight text-white md:text-5xl">
+          <h2 id="featured-heading" className="font-sans text-4xl font-bold tracking-tight text-white md:text-5xl">
             Featured Products
           </h2>
           <p className="mx-auto mt-3 max-w-2xl text-lg text-white/50">
@@ -166,14 +191,17 @@ export function FeaturedProducts() {
           whileInView="visible"
           viewport={{ once: true }}
           className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
+          role="list"
         >
           {products.map((product) => (
-            <motion.div
+            <motion.article
               key={product.id}
               variants={cardVariants}
               className="group relative"
+              role="listitem"
+              aria-label={`${product.name} — $${product.price}`}
             >
-              <div className="relative overflow-hidden rounded-2xl bg-[#0a0d12]">
+              <div className="relative overflow-hidden rounded-2xl bg-[#0a0d12] transition-all duration-500 group-hover:shadow-[0_0_40px_-10px_rgba(0,217,255,0.2),0_20px_60px_-15px_rgba(0,0,0,0.5)] group-hover:-translate-y-1">
                 <div className="relative aspect-[4/5] overflow-hidden">
                   <Image
                     src={product.image}
@@ -181,16 +209,22 @@ export function FeaturedProducts() {
                     fill
                     className="object-cover transition-all duration-700 group-hover:scale-110"
                     sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                    loading="lazy"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#0a0d12] via-transparent to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
 
-                  {product.badge && (
-                    <div className="absolute left-3 top-3">
+                  <div className="absolute left-3 top-3 flex flex-col gap-2">
+                    {product.badge && (
                       <span className="inline-flex items-center gap-1 rounded-full border border-white/10 bg-white/10 px-3 py-1 text-xs font-medium text-white backdrop-blur-md">
                         {product.badge}
                       </span>
-                    </div>
-                  )}
+                    )}
+                    {product.originalPrice && (
+                      <span className="inline-flex items-center gap-1 rounded-full bg-danger/90 px-2.5 py-1 text-[10px] font-semibold text-white backdrop-blur-sm">
+                        -{Math.round((1 - product.price / product.originalPrice) * 100)}%
+                      </span>
+                    )}
+                  </div>
 
                   <div className="absolute right-3 top-3 flex flex-col gap-2">
                     <motion.button
@@ -198,10 +232,11 @@ export function FeaturedProducts() {
                       whileTap={{ scale: 0.9 }}
                       onClick={() => toggleWishlist(product.id)}
                       className="flex h-9 w-9 items-center justify-center rounded-full border border-white/10 bg-black/50 text-white backdrop-blur-md transition-colors hover:border-white/20"
+                      aria-label={wishlist.has(product.id) ? "Remove from wishlist" : "Add to wishlist"}
                     >
                       <Heart
-                        className={`h-4 w-4 transition-colors ${
-                          wishlist.has(product.id) ? "fill-red-500 text-red-500" : ""
+                        className={`h-4 w-4 transition-all duration-300 ${
+                          wishlist.has(product.id) ? "scale-110 fill-red-500 text-red-500" : "scale-100"
                         }`}
                       />
                     </motion.button>
@@ -209,22 +244,32 @@ export function FeaturedProducts() {
                       whileHover={{ scale: 1.1 }}
                       whileTap={{ scale: 0.9 }}
                       className="flex h-9 w-9 items-center justify-center rounded-full border border-white/10 bg-black/50 text-white backdrop-blur-md transition-colors hover:border-white/20"
+                      aria-label="Quick view"
                     >
                       <Eye className="h-4 w-4" />
                     </motion.button>
                   </div>
 
-                  <div className="absolute bottom-0 left-0 right-0 translate-y-full p-4 transition-transform duration-500 group-hover:translate-y-0">
-                    <div className="flex gap-2">
-                      <Button
-                        size="sm"
-                        className="flex-1 bg-white text-black hover:bg-white/90"
-                      >
-                        <ShoppingBag className="mr-1.5 h-3.5 w-3.5" />
-                        Add to Cart
-                      </Button>
-                    </div>
-                  </div>
+                  <motion.div
+                    initial={false}
+                    animate={{ y: addedToCart.has(product.id) ? 0 : 0 }}
+                    className="absolute bottom-0 left-0 right-0 p-4 opacity-0 transition-all duration-500 group-hover:opacity-100 group-hover:translate-y-0"
+                    style={{ transform: "translateY(100%)" }}
+                  >
+                    <Button
+                      size="sm"
+                      className={`w-full transition-all duration-300 ${
+                        addedToCart.has(product.id)
+                          ? "bg-green-500 text-white hover:bg-green-600"
+                          : "bg-white text-black hover:bg-white/90"
+                      }`}
+                      onClick={() => handleAddToCart(product.id)}
+                      aria-label={`Add ${product.name} to cart`}
+                    >
+                      <ShoppingBag className={`mr-1.5 h-3.5 w-3.5 transition-transform duration-300 ${addedToCart.has(product.id) ? "scale-110" : ""}`} />
+                      {addedToCart.has(product.id) ? "Added!" : "Add to Cart"}
+                    </Button>
+                  </motion.div>
                 </div>
 
                 <div className="space-y-2 p-4">
@@ -243,7 +288,7 @@ export function FeaturedProducts() {
                   </h3>
 
                   <div className="flex items-center gap-1.5">
-                    <div className="flex">
+                    <div className="flex" aria-label={`${product.rating} out of 5 stars`}>
                       {Array.from({ length: 5 }).map((_, i) => (
                         <Star
                           key={i}
@@ -259,7 +304,7 @@ export function FeaturedProducts() {
                   </div>
 
                   <div className="flex items-center gap-2">
-                    <span className="font-sans text-lg font-semibold text-white">
+                    <span className="font-sans text-xl font-bold text-white">
                       ${product.price.toLocaleString()}
                     </span>
                     {product.originalPrice && (
@@ -268,11 +313,25 @@ export function FeaturedProducts() {
                       </span>
                     )}
                   </div>
+
+                  <div className="flex items-center justify-between pt-1">
+                    <div className="flex items-center gap-1 text-[11px] text-white/30">
+                      {product.inStock ? (
+                        <Truck className="h-3 w-3 text-primary/60" />
+                      ) : (
+                        <Clock className="h-3 w-3 text-amber-400/60" />
+                      )}
+                      <span>{product.delivery}</span>
+                    </div>
+                    <span className={`text-[11px] ${product.inStock ? "text-green-400/60" : "text-amber-400/60"}`}>
+                      {product.inStock ? "In Stock" : "Low Stock"}
+                    </span>
+                  </div>
                 </div>
 
-                <div className="absolute inset-0 rounded-2xl ring-1 ring-inset ring-white/[0.06] transition-all duration-500 group-hover:ring-primary/20 group-hover:shadow-[0_0_30px_-5px_rgba(0,217,255,0.15)]" />
+                <div className="absolute inset-0 rounded-2xl ring-1 ring-inset ring-white/[0.06] transition-all duration-500 group-hover:ring-primary/30 group-hover:shadow-[0_0_30px_-5px_rgba(0,217,255,0.15)]" />
               </div>
-            </motion.div>
+            </motion.article>
           ))}
         </motion.div>
       </div>

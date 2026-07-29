@@ -9,16 +9,16 @@ const brands = [
 
 export function BrandLogos() {
   return (
-    <section className="relative overflow-hidden py-24">
+    <section className="relative overflow-hidden py-24" aria-labelledby="brands-heading">
       <div className="container-wide">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="mb-10 text-center"
+          className="mb-12 text-center"
         >
-          <h2 className="font-sans text-3xl font-bold tracking-tight text-white">
+          <h2 id="brands-heading" className="font-sans text-3xl font-bold tracking-tight text-white">
             Trusted Brands
           </h2>
           <p className="mt-2 text-white/50">
@@ -27,20 +27,20 @@ export function BrandLogos() {
         </motion.div>
 
         <div className="relative">
-          <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-20 bg-gradient-to-r from-[#05070b] to-transparent" />
-          <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-20 bg-gradient-to-l from-[#05070b] to-transparent" />
+          <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-24 bg-gradient-to-r from-[#05070b] to-transparent" />
+          <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-24 bg-gradient-to-l from-[#05070b] to-transparent" />
 
           <motion.div
             animate={{ x: ["0%", "-50%"] }}
             transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
-            className="flex gap-16"
+            className="flex gap-20"
           >
             {[...brands, ...brands].map((brand, i) => (
               <div
                 key={`${brand}-${i}`}
-                className="flex h-16 w-32 flex-shrink-0 items-center justify-center"
+                className="flex h-16 w-36 flex-shrink-0 items-center justify-center"
               >
-                <span className="whitespace-nowrap font-sans text-lg font-semibold tracking-widest text-white/20 transition-colors duration-500 hover:text-white/40">
+                <span className="whitespace-nowrap font-sans text-xl font-bold tracking-widest text-white/[0.08] transition-all duration-500 hover:text-white/25">
                   {brand}
                 </span>
               </div>
