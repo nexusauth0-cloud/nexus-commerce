@@ -14,7 +14,7 @@ interface ProductCardProps extends React.HTMLAttributes<HTMLDivElement> {
   rating?: number;
   reviewCount?: number;
   badge?: string;
-  badgeVariant?: "primary" | "success" | "warning" | "danger";
+  badgeVariant?: "default" | "secondary" | "success" | "warning" | "danger" | "outline";
   inventory?: number;
   aiRecommended?: boolean;
   onWishlist?: () => void;
@@ -41,7 +41,7 @@ const ProductCard = React.forwardRef<HTMLDivElement, ProductCardProps>(
       rating = 0,
       reviewCount = 0,
       badge,
-      badgeVariant = "primary",
+      badgeVariant = "default",
       inventory,
       aiRecommended = false,
       onWishlist,
@@ -110,7 +110,7 @@ const ProductCard = React.forwardRef<HTMLDivElement, ProductCardProps>(
                 <Badge variant="danger">-{discount}%</Badge>
               )}
               {aiRecommended && (
-                <Badge variant="primary">AI Pick</Badge>
+                <Badge variant="default">AI Pick</Badge>
               )}
             </div>
             <button
