@@ -87,6 +87,9 @@ importers:
 
   apps/web:
     dependencies:
+      '@auth/core':
+        specifier: ^0.37.0
+        version: 0.37.4
       '@nexus/auth':
         specifier: workspace:*
         version: link:../../packages/auth
@@ -166,7 +169,13 @@ importers:
       bcryptjs:
         specifier: ^3.0.0
         version: 3.0.3
+      zod:
+        specifier: ^3.24.0
+        version: 3.25.76
     devDependencies:
+      '@types/bcryptjs':
+        specifier: ^2.4.6
+        version: 2.4.6
       typescript:
         specifier: ^5.8.0
         version: 5.9.3
@@ -1275,6 +1284,9 @@ packages:
     resolution: {integrity: sha512-qjE1apG6RThuX49vUJd5ks2dV2ndXC2qktDChQonFMvUzrMrEnZMQzO+IgxBiYq1j+NbXQcRwj84nGnk1TBw1g==}
     cpu: [arm64]
     os: [win32]
+
+  '@types/bcryptjs@2.4.6':
+    resolution: {integrity: sha512-9xlo6R2qDs5uixm0bcIqCeMCE6HiQsIyel9KQySStiyqNl2tnj2mP3DX1Nf56MD6KMenNNlBBsy3LJ7gUEQPXQ==}
 
   '@types/node@22.20.1':
     resolution: {integrity: sha512-EANqOCF9QFyra+4pfxUcX9STKJpCLjMbObVzljIJomAWSnuSIEAvyzEU53GaajbXJEgdh0iEcPL+DGvpUd4k1Q==}
@@ -2931,6 +2943,8 @@ snapshots:
 
   '@turbo/windows-arm64@2.10.7':
     optional: true
+
+  '@types/bcryptjs@2.4.6': {}
 
   '@types/node@22.20.1':
     dependencies:
