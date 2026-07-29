@@ -689,23 +689,25 @@ export function LiveDashboard() {
           </p>
         </motion.div>
 
-        <div className="mx-auto grid max-w-6xl grid-cols-1 gap-5 lg:grid-cols-3">
-          <div className="lg:col-span-1">
-            <RevenueChart />
+        <div className="mx-auto max-w-6xl rounded-2xl border border-white/[0.04] bg-white/[0.01] p-1 backdrop-blur-sm">
+          <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
+            <div className="lg:col-span-1">
+              <RevenueChart />
+            </div>
+            <div className="lg:col-span-1">
+              <ActivityFeed />
+            </div>
+            <div className="lg:col-span-1">
+              <AIBrain />
+            </div>
           </div>
-          <div className="lg:col-span-1">
-            <ActivityFeed />
-          </div>
-          <div className="lg:col-span-1">
-            <AIBrain />
+
+          <div className="mt-4">
+            <WorldMap />
           </div>
         </div>
 
-        <div className="mx-auto mt-5 max-w-6xl">
-          <WorldMap />
-        </div>
-
-        <div className="mx-auto mt-5 max-w-6xl">
+        <div className="mx-auto mt-8 max-w-6xl">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}

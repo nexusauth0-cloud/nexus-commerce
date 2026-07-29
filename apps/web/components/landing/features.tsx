@@ -1,6 +1,7 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
+import { useRef, useEffect } from "react";
 import {
   Search,
   Package,
@@ -38,18 +39,46 @@ interface CardShellProps {
 }
 
 function CardShell({ children, index, className }: CardShellProps) {
+  const ref = useRef<HTMLDivElement>(null);
+  const mouseX = useMotionValue(0.5);
+  const mouseY = useMotionValue(0.5);
+  const rotateX = useSpring(useTransform(mouseY, [0, 1], [3, -3]), { stiffness: 100, damping: 20 });
+  const rotateY = useSpring(useTransform(mouseX, [0, 1], [-3, 3]), { stiffness: 100, damping: 20 });
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const handleMouseMove = (e: MouseEvent) => {
+      const rect = el.getBoundingClientRect();
+      mouseX.set((e.clientX - rect.left) / rect.width);
+      mouseY.set((e.clientY - rect.top) / rect.height);
+    };
+    const handleMouseLeave = () => {
+      mouseX.set(0.5);
+      mouseY.set(0.5);
+    };
+    el.addEventListener("mousemove", handleMouseMove);
+    el.addEventListener("mouseleave", handleMouseLeave);
+    return () => {
+      el.removeEventListener("mousemove", handleMouseMove);
+      el.removeEventListener("mouseleave", handleMouseLeave);
+    };
+  }, [mouseX, mouseY]);
+
   return (
     <motion.div
+      ref={ref}
       custom={index}
       variants={cardEntrance}
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true, margin: "-80px" }}
-      className={cn("group", className)}
+      className={cn("group perspective-[800px]", className)}
+      style={{ rotateX, rotateY }}
     >
       <Glass
         variant="card"
-        className="h-full p-6 transition-all duration-300 group-hover:-translate-y-1 group-hover:shadow-lg sm:p-8"
+        className="h-full p-6 transition-all duration-500 group-hover:-translate-y-1 group-hover:shadow-xl sm:p-8"
       >
         {children}
       </Glass>

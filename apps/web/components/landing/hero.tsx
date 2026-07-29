@@ -494,23 +494,6 @@ function CartPanel() {
 
 function CommerceCommandCenter() {
   const containerRef = useRef<HTMLDivElement>(null);
-  const mouseX = useMotionValue(0.5);
-  const mouseY = useMotionValue(0.5);
-  const springX = useSpring(mouseX, { stiffness: 80, damping: 30 });
-  const springY = useSpring(mouseY, { stiffness: 80, damping: 30 });
-
-  useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      const rect = containerRef.current?.getBoundingClientRect();
-      if (!rect) return;
-      mouseX.set((e.clientX - rect.left) / rect.width);
-      mouseY.set((e.clientY - rect.top) / rect.height);
-    };
-    const container = containerRef.current;
-    if (!container) return;
-    container.addEventListener("mousemove", handleMouseMove);
-    return () => container.removeEventListener("mousemove", handleMouseMove);
-  }, [mouseX, mouseY]);
 
   return (
     <motion.div
@@ -528,27 +511,80 @@ function CommerceCommandCenter() {
         }}
       >
         <div className="grid grid-cols-2 gap-2 sm:gap-3">
-          <RevenuePanel />
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3, duration: 0.5, ease: easeOutExpo }}
+            className="col-span-full"
+          >
+            <RevenuePanel />
+          </motion.div>
 
-          <div className="animate-float">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.4, duration: 0.5, ease: easeOutExpo }}
+            className="animate-float"
+          >
             <AIWorkflowPanel />
-          </div>
+          </motion.div>
 
-          <div className="animate-float-slow">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.45, duration: 0.5, ease: easeOutExpo }}
+            className="animate-float-slow"
+          >
             <ProductShowcase />
-          </div>
+          </motion.div>
 
-          <OrdersPanel />
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.5, duration: 0.5, ease: easeOutExpo }}
+          >
+            <OrdersPanel />
+          </motion.div>
 
-          <SearchPanel />
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.55, duration: 0.5, ease: easeOutExpo }}
+          >
+            <SearchPanel />
+          </motion.div>
 
-          <InventoryPanel />
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.6, duration: 0.5, ease: easeOutExpo }}
+          >
+            <InventoryPanel />
+          </motion.div>
 
-          <AnalyticsPanel />
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.65, duration: 0.5, ease: easeOutExpo }}
+          >
+            <AnalyticsPanel />
+          </motion.div>
 
-          <RecommendationsPanel />
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.7, duration: 0.5, ease: easeOutExpo }}
+          >
+            <RecommendationsPanel />
+          </motion.div>
 
-          <CartPanel />
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.75, duration: 0.5, ease: easeOutExpo }}
+          >
+            <CartPanel />
+          </motion.div>
         </div>
       </div>
     </motion.div>

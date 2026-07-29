@@ -1,11 +1,13 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
+import { useState, useEffect } from "react";
 import { Quote, Star } from "lucide-react";
 import { Section } from "@nexus/ui/section";
 import { Heading } from "@nexus/ui/heading";
 import { Glass } from "@nexus/ui/glass";
 import { Avatar, AvatarFallback } from "@nexus/ui/avatar";
+import { cn } from "@/lib/utils";
 
 const testimonials = [
   {
@@ -16,6 +18,7 @@ const testimonials = [
     initials: "SC",
     gradient: "from-primary to-secondary",
     rating: 5,
+    featured: true,
   },
   {
     name: "Marcus Johnson",
@@ -44,7 +47,93 @@ const metrics = [
   { value: "4.9★", label: "Average Rating" },
 ];
 
+const easeOutExpo: [number, number, number, number] = [0.16, 1, 0.3, 1];
+
+function TestimonialCard({
+  t,
+  index,
+  featured,
+}: {
+  t: (typeof testimonials)[0];
+  index: number;
+  featured?: boolean;
+}) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-50px" }}
+      transition={{ duration: 0.5, delay: index * 0.15, ease: easeOutExpo }}
+      className={featured ? "md:col-span-2" : ""}
+    >
+      <Glass
+        variant="card"
+        hover
+        className={cn(
+          "flex h-full flex-col transition-all duration-500",
+          featured
+            ? "relative overflow-hidden p-8 md:p-10"
+            : "p-8",
+        )}
+      >
+        {featured && (
+          <div className="pointer-events-none absolute inset-0 overflow-hidden">
+            <div className="absolute -right-20 -top-20 h-40 w-40 rounded-full bg-primary/[0.03] blur-3xl" />
+            <div className="absolute -bottom-20 -left-20 h-40 w-40 rounded-full bg-secondary/[0.03] blur-3xl" />
+          </div>
+        )}
+        <Quote className={cn(
+          "mb-4",
+          featured ? "h-10 w-10 text-primary/20" : "h-8 w-8 text-primary/30",
+        )} />
+        <p className={cn(
+          "flex-1 leading-relaxed text-text-secondary",
+          featured && "text-lg",
+        )}>
+          {t.content}
+        </p>
+
+        <div className="mt-6 flex items-center gap-4">
+          <Avatar className={featured ? "h-12 w-12" : ""}>
+            <AvatarFallback
+              className={`bg-gradient-to-br ${t.gradient} text-sm font-bold text-white`}
+            >
+              {t.initials}
+            </AvatarFallback>
+          </Avatar>
+          <div>
+            <p className="text-sm font-medium text-white">{t.name}</p>
+            <p className="text-xs text-text-secondary">{t.role}</p>
+          </div>
+        </div>
+
+        <div className="mt-4 flex gap-1">
+          {Array.from({ length: t.rating }).map((_, j) => (
+            <Star
+              key={j}
+              className={cn(
+                "fill-warning text-warning",
+                featured ? "h-5 w-5" : "h-4 w-4",
+              )}
+            />
+          ))}
+        </div>
+      </Glass>
+    </motion.div>
+  );
+}
+
 export function Testimonials() {
+  const [activeIndex, setActiveIndex] = useState(0);
+  const nonFeatured = testimonials.filter((t) => !t.featured);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setActiveIndex((prev) => (prev + 1) % nonFeatured.length);
+    }, 5000);
+    return () => clearInterval(timer);
+  }, [nonFeatured.length]);
+
   return (
     <Section size="xl" withGlow>
       <motion.div
@@ -72,7 +161,7 @@ export function Testimonials() {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-50px" }}
-            transition={{ duration: 0.5, delay: i * 0.1 }}
+            transition={{ duration: 0.5, delay: i * 0.1, ease: easeOutExpo }}
           >
             <Glass
               variant="card"
@@ -87,46 +176,67 @@ export function Testimonials() {
         ))}
       </div>
 
-      {/* Testimonial cards */}
+      {/* Featured + rotating testimonial */}
       <div className="mt-12 grid gap-6 md:grid-cols-3">
         {testimonials.map((t, i) => (
-          <motion.div
-            key={t.name}
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-50px" }}
-            transition={{ duration: 0.5, delay: i * 0.15 }}
-          >
-            <Glass variant="card" hover className="flex h-full flex-col p-8">
-              <Quote className="mb-4 h-8 w-8 text-primary/30" />
-              <p className="flex-1 leading-relaxed text-text-secondary">
-                {t.content}
-              </p>
+          t.featured ? (
+            <TestimonialCard key={t.name} t={t} index={i} featured />
+          ) : null
+        ))}
+        <AnimatePresence mode="wait">
+          {nonFeatured.map((t, i) => (
+            activeIndex === i && (
+              <motion.div
+                key={t.name + i}
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -30 }}
+                transition={{ duration: 0.5, ease: easeOutExpo }}
+                className="flex flex-col justify-center"
+              >
+                <Glass variant="card" hover className="flex h-full flex-col p-8">
+                  <Quote className="mb-4 h-8 w-8 text-primary/30" />
+                  <p className="flex-1 leading-relaxed text-text-secondary">
+                    {t.content}
+                  </p>
+                  <div className="mt-6 flex items-center gap-4">
+                    <Avatar>
+                      <AvatarFallback
+                        className={`bg-gradient-to-br ${t.gradient} text-sm font-bold text-white`}
+                      >
+                        {t.initials}
+                      </AvatarFallback>
+                    </Avatar>
+                    <div>
+                      <p className="text-sm font-medium text-white">{t.name}</p>
+                      <p className="text-xs text-text-secondary">{t.role}</p>
+                    </div>
+                  </div>
+                  <div className="mt-4 flex gap-1">
+                    {Array.from({ length: t.rating }).map((_, j) => (
+                      <Star key={j} className="h-4 w-4 fill-warning text-warning" />
+                    ))}
+                  </div>
+                </Glass>
+              </motion.div>
+            )
+          ))}
+        </AnimatePresence>
+      </div>
 
-              <div className="mt-6 flex items-center gap-4">
-                <Avatar>
-                  <AvatarFallback
-                    className={`bg-gradient-to-br ${t.gradient} text-sm font-bold text-white`}
-                  >
-                    {t.initials}
-                  </AvatarFallback>
-                </Avatar>
-                <div>
-                  <p className="text-sm font-medium text-white">{t.name}</p>
-                  <p className="text-xs text-text-secondary">{t.role}</p>
-                </div>
-              </div>
-
-              <div className="mt-4 flex gap-1">
-                {Array.from({ length: t.rating }).map((_, j) => (
-                  <Star
-                    key={j}
-                    className="h-4 w-4 fill-warning text-warning"
-                  />
-                ))}
-              </div>
-            </Glass>
-          </motion.div>
+      {/* Dot indicators */}
+      <div className="mt-8 flex items-center justify-center gap-2">
+        {nonFeatured.map((_, i) => (
+          <button
+            key={i}
+            onClick={() => setActiveIndex(i)}
+            className={cn(
+              "h-1.5 rounded-full transition-all duration-300",
+              i === activeIndex
+                ? "w-6 bg-primary"
+                : "w-1.5 bg-white/20 hover:bg-white/40",
+            )}
+          />
         ))}
       </div>
 

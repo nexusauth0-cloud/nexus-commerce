@@ -116,15 +116,21 @@ export function Footer() {
                 {title}
               </h3>
               <ul className="space-y-3">
-                {links.map((link) => (
-                  <li key={link.label}>
+                {links.map((link, j) => (
+                  <motion.li
+                    key={link.label}
+                    initial={{ opacity: 0, x: -8 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.3, delay: i * 0.1 + j * 0.05 }}
+                  >
                     <Link
                       href={link.href}
                       className="text-sm text-text-secondary transition-colors hover:text-primary"
                     >
                       {link.label}
                     </Link>
-                  </li>
+                  </motion.li>
                 ))}
               </ul>
             </motion.div>

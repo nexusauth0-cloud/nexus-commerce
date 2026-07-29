@@ -60,15 +60,15 @@ export function AIAssistant() {
     <>
       {/* FAB Button */}
       <motion.button
-        initial={{ scale: 0 }}
-        animate={{ scale: 1 }}
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.95 }}
+        initial={{ scale: 0, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        whileHover={{ scale: 1.08 }}
+        whileTap={{ scale: 0.92 }}
         onClick={() => setIsOpen(!isOpen)}
         className={cn(
-          "fixed bottom-6 right-6 z-50 flex h-14 w-14 items-center justify-center rounded-full shadow-glow-primary transition-shadow",
+          "fixed bottom-6 right-6 z-50 flex h-14 w-14 items-center justify-center rounded-full shadow-glow-primary transition-shadow duration-300",
           isOpen
-            ? "bg-danger"
+            ? "bg-danger shadow-lg"
             : "bg-gradient-to-br from-primary to-secondary",
         )}
         aria-label={isOpen ? "Close AI Assistant" : "Open AI Assistant"}
@@ -87,7 +87,7 @@ export function AIAssistant() {
             initial={{ opacity: 0, y: 20, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
-            transition={{ duration: 0.2, ease: "easeOut" }}
+            transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
             className="fixed bottom-24 right-6 z-50 w-[380px]"
           >
             <Glass variant="elevated" className="overflow-hidden p-0">

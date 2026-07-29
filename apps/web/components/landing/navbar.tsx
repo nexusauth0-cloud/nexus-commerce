@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useScroll, useSpring } from "framer-motion";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Search, ShoppingBag, Sun, Menu, X, ArrowRight } from "lucide-react";
@@ -30,10 +30,25 @@ const mobileItemVariants = {
   }),
 };
 
+const staggerChildren = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { staggerChildren: 0.04, delayChildren: 0.1 },
+  },
+};
+
+const linkItem = {
+  hidden: { opacity: 0, y: -8 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.2 } },
+};
+
 export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const pathname = usePathname();
+  const { scrollYProgress } = useScroll();
+  const scaleX = useSpring(scrollYProgress, { stiffness: 200, damping: 30 });
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 20);
@@ -61,8 +76,12 @@ export function Navbar() {
       variants={containerVariants}
       initial="hidden"
       animate="visible"
-      className="fixed left-0 right-0 top-0 z-50 flex justify-center px-4 pt-4 md:px-6 md:pt-6"
+      className="fixed left-0 right-0 top-0 z-50 flex flex-col items-center px-4 pt-4 md:px-6 md:pt-6"
     >
+      <motion.div
+        className="fixed left-0 right-0 top-0 h-[2px] origin-left bg-gradient-to-r from-primary via-secondary to-primary"
+        style={{ scaleX }}
+      />
       <nav
         className={cn(
           "mx-auto flex h-[72px] w-full max-w-5xl items-center justify-between rounded-[999px] border border-white/[0.08] px-3 transition-all duration-300",
@@ -78,33 +97,39 @@ export function Navbar() {
           <span className="text-lg font-bold tracking-tight text-white">NEXUS</span>
         </Link>
 
-        <div className="hidden items-center gap-0.5 md:flex">
+        <motion.div
+          variants={staggerChildren}
+          initial="hidden"
+          animate="visible"
+          className="hidden items-center gap-0.5 md:flex"
+        >
           {navLinks.map((link) => {
             const isActive = pathname === link.href;
             return (
-              <Link
-                key={link.href}
-                href={link.href}
-                className={cn(
-                  "relative rounded-lg px-4 py-2 text-sm font-medium tracking-wider uppercase transition-all duration-150",
-                  isActive
-                    ? "text-white"
-                    : "text-white/60 hover:bg-white/[0.05] hover:text-white",
-                )}
-              >
-                {link.label}
-                {isActive && (
-                  <motion.span
-                    initial={{ scaleX: 0 }}
-                    animate={{ scaleX: 1 }}
-                    transition={{ duration: 0.2, delay: 0.1 }}
-                    className="absolute -bottom-0.5 left-1/2 h-[2px] w-1 -translate-x-1/2 rounded-full bg-primary"
-                  />
-                )}
-              </Link>
+              <motion.div key={link.href} variants={linkItem}>
+                <Link
+                  href={link.href}
+                  className={cn(
+                    "relative rounded-lg px-4 py-2 text-sm font-medium tracking-wider uppercase transition-all duration-150",
+                    isActive
+                      ? "text-white"
+                      : "text-white/60 hover:bg-white/[0.05] hover:text-white",
+                  )}
+                >
+                  {link.label}
+                  {isActive && (
+                    <motion.span
+                      initial={{ scaleX: 0 }}
+                      animate={{ scaleX: 1 }}
+                      transition={{ duration: 0.2, delay: 0.1 }}
+                      className="absolute -bottom-0.5 left-1/2 h-[2px] w-1 -translate-x-1/2 rounded-full bg-primary"
+                    />
+                  )}
+                </Link>
+              </motion.div>
             );
           })}
-        </div>
+        </motion.div>
 
         <div className="flex items-center gap-1">
           <button
