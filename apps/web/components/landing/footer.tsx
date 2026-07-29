@@ -1,172 +1,111 @@
-"use client";
+"use client"
 
-import { motion } from "framer-motion";
-import Link from "next/link";
-import {
-  ShoppingBag,
-  Github,
-  Twitter,
-  Linkedin,
-  Youtube,
-  Heart,
-} from "lucide-react";
-import { Container } from "@nexus/ui/container";
-import { Separator } from "@nexus/ui/separator";
+import { motion } from "framer-motion"
+import { Sparkles, Github, Twitter, Linkedin, Youtube, ArrowUpRight } from "lucide-react"
 
-const footerLinks = {
-  Platform: [
-    { label: "Products", href: "/products" },
-    { label: "Categories", href: "/categories" },
-    { label: "Collections", href: "/collections" },
-    { label: "Brands", href: "/brands" },
-    { label: "Sale", href: "/sale" },
-  ],
-  Company: [
-    { label: "About", href: "/about" },
-    { label: "Blog", href: "/blog" },
-    { label: "Careers", href: "/careers" },
-    { label: "Press", href: "/press" },
-    { label: "Contact", href: "/contact" },
-  ],
-  Support: [
-    { label: "Help Center", href: "/help" },
-    { label: "Shipping", href: "/shipping" },
-    { label: "Returns", href: "/returns" },
-    { label: "FAQ", href: "/faq" },
-    { label: "Privacy", href: "/privacy" },
-  ],
-  "Developers": [
-    { label: "API Docs", href: "/docs" },
-    { label: "Integrations", href: "/integrations" },
-    { label: "Changelog", href: "/changelog" },
-    { label: "Status", href: "/status" },
-    { label: "Open Source", href: "/opensource" },
-  ],
-};
-
-const socialLinks = [
-  { icon: Github, href: "https://github.com", label: "GitHub" },
-  { icon: Twitter, href: "https://twitter.com", label: "Twitter" },
-  { icon: Linkedin, href: "https://linkedin.com", label: "LinkedIn" },
-  { icon: Youtube, href: "https://youtube.com", label: "YouTube" },
-];
+const columns = [
+  {
+    title: "Platform",
+    links: ["Products", "AI Shopping", "Collections", "Brands", "Pricing"],
+  },
+  {
+    title: "Company",
+    links: ["About", "Blog", "Careers", "Press", "Partners"],
+  },
+  {
+    title: "Support",
+    links: ["Help Center", "Shipping", "Returns", "Contact", "FAQ"],
+  },
+  {
+    title: "Developers",
+    links: ["API", "Documentation", "Integrations", "Status", "Changelog"],
+  },
+]
 
 export function Footer() {
   return (
-    <footer className="relative border-t border-border">
-      <Container className="py-16">
-        <div className="grid gap-12 lg:grid-cols-6">
-          {/* Brand column */}
+    <footer className="relative overflow-hidden border-t border-white/[0.04]">
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_bottom,rgba(0,217,255,0.02),transparent_50%)]" />
+
+      <div className="container-wide py-16">
+        <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-6">
           <div className="lg:col-span-2">
-            <Link href="/" className="inline-flex items-center gap-2">
-              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-primary to-secondary">
-                <ShoppingBag className="h-4 w-4 text-white" />
-              </div>
-              <span className="text-lg font-bold text-white">NEXUS</span>
-            </Link>
-            <p className="mt-4 max-w-xs text-sm leading-relaxed text-text-secondary">
-              The next generation AI commerce platform. Powering intelligent
-              shopping experiences for forward-thinking brands worldwide.
-            </p>
-
-            {/* Newsletter signup inline */}
-            <div className="mt-6">
-              <p className="mb-3 text-xs font-semibold uppercase tracking-wider text-text-secondary">
-                Get product updates
-              </p>
-              <div className="flex gap-2">
-                <input
-                  type="email"
-                  placeholder="your@email.com"
-                  className="min-w-0 flex-1 rounded-lg border border-border bg-surface px-3 py-2 text-xs text-text-primary placeholder:text-text-muted outline-none transition-all focus:border-primary/50 focus:ring-2 focus:ring-primary/20"
-                />
-                <button className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-primary text-primary-foreground transition-all hover:bg-primary-light">
-                  <Heart className="h-4 w-4" />
-                </button>
-              </div>
-            </div>
-
-            {/* Social links */}
-            <div className="mt-6 flex gap-3">
-              {socialLinks.map((social) => (
-                <a
-                  key={social.href}
-                  href={social.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={social.label}
-                  className="flex h-9 w-9 items-center justify-center rounded-lg border border-border bg-card text-text-secondary transition-all hover:border-primary/30 hover:text-primary hover:shadow-glow-primary"
-                >
-                  <social.icon className="h-4 w-4" />
-                </a>
-              ))}
-            </div>
-          </div>
-
-          {/* Link columns */}
-          {Object.entries(footerLinks).map(([title, links], i) => (
             <motion.div
-              key={title}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.4, delay: i * 0.1 }}
+              transition={{ duration: 0.5 }}
             >
-              <h3 className="mb-4 text-sm font-semibold text-white">
-                {title}
-              </h3>
-              <ul className="space-y-3">
-                {links.map((link, j) => (
-                  <motion.li
-                    key={link.label}
-                    initial={{ opacity: 0, x: -8 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.3, delay: i * 0.1 + j * 0.05 }}
+              <div className="flex items-center gap-2">
+                <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary/10">
+                  <Sparkles className="h-4 w-4 text-primary" />
+                </div>
+                <span className="font-sans text-lg font-bold text-white">NEXUS</span>
+              </div>
+              <p className="mt-4 max-w-xs text-sm leading-relaxed text-white/40">
+                The next-generation AI commerce platform. Curating the finest products through
+                intelligent recommendation technology.
+              </p>
+              <div className="mt-6 flex gap-3">
+                {[Github, Twitter, Linkedin, Youtube].map((Icon, i) => (
+                  <motion.a
+                    key={i}
+                    whileHover={{ y: -2, scale: 1.05 }}
+                    href="#"
+                    className="flex h-9 w-9 items-center justify-center rounded-lg border border-white/10 text-white/40 transition-colors hover:border-primary/30 hover:text-primary"
                   >
-                    <Link
-                      href={link.href}
-                      className="text-sm text-text-secondary transition-colors hover:text-primary"
+                    <Icon className="h-4 w-4" />
+                  </motion.a>
+                ))}
+              </div>
+            </motion.div>
+          </div>
+
+          {columns.map((col, i) => (
+            <motion.div
+              key={col.title}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.1 + i * 0.05 }}
+            >
+              <h4 className="mb-4 text-sm font-semibold text-white">{col.title}</h4>
+              <ul className="space-y-3">
+                {col.links.map((link) => (
+                  <li key={link}>
+                    <a
+                      href="#"
+                      className="group inline-flex items-center gap-1 text-sm text-white/40 transition-colors hover:text-white"
                     >
-                      {link.label}
-                    </Link>
-                  </motion.li>
+                      {link}
+                      <ArrowUpRight className="h-3 w-3 opacity-0 transition-opacity group-hover:opacity-60" />
+                    </a>
+                  </li>
                 ))}
               </ul>
             </motion.div>
           ))}
         </div>
 
-        <Separator className="my-12" />
-
-        {/* Bottom bar */}
-        <div className="flex flex-col items-center justify-between gap-4 sm:flex-row">
-          <p className="text-sm text-text-muted">
-            &copy; {new Date().getFullYear()} NEXUS Commerce. All rights
-            reserved.
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, delay: 0.3 }}
+          className="mt-16 flex flex-col items-center justify-between gap-4 border-t border-white/[0.04] pt-8 md:flex-row"
+        >
+          <p className="text-xs text-white/30">
+            &copy; {new Date().getFullYear()} NEXUS Commerce. All rights reserved.
           </p>
           <div className="flex gap-6">
-            <Link
-              href="/privacy"
-              className="text-sm text-text-muted transition-colors hover:text-text-secondary"
-            >
-              Privacy
-            </Link>
-            <Link
-              href="/terms"
-              className="text-sm text-text-muted transition-colors hover:text-text-secondary"
-            >
-              Terms
-            </Link>
-            <Link
-              href="/cookies"
-              className="text-sm text-text-muted transition-colors hover:text-text-secondary"
-            >
-              Cookies
-            </Link>
+            {["Privacy", "Terms", "Cookies"].map((link) => (
+              <a key={link} href="#" className="text-xs text-white/30 transition-colors hover:text-white/60">
+                {link}
+              </a>
+            ))}
           </div>
-        </div>
-      </Container>
+        </motion.div>
+      </div>
     </footer>
-  );
+  )
 }

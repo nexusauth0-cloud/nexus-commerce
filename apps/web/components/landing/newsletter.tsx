@@ -1,126 +1,97 @@
-"use client";
+"use client"
 
-import { useState } from "react";
-import { motion } from "framer-motion";
-import { Send, Check, Sparkles, ArrowRight } from "lucide-react";
-import { Section } from "@nexus/ui/section";
-import { Heading } from "@nexus/ui/heading";
-import { Button } from "@nexus/ui/button";
-import { Glass } from "@nexus/ui/glass";
+import { useState } from "react"
+import { motion } from "framer-motion"
+import { Sparkles, ArrowRight, Check, Zap, Shield, Cpu } from "lucide-react"
 
 const benefits = [
-  "Early access to new AI features",
-  "Exclusive product drops and deals",
-  "Monthly insights and trends report",
-  "No spam — unsubscribe anytime",
-];
+  { icon: Zap, text: "Early access to drops" },
+  { icon: Shield, text: "Exclusive member pricing" },
+  { icon: Cpu, text: "AI-curated picks" },
+]
 
 export function Newsletter() {
-  const [email, setEmail] = useState("");
-  const [submitted, setSubmitted] = useState(false);
+  const [email, setEmail] = useState("")
+  const [subscribed, setSubscribed] = useState(false)
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!email) return;
-    setSubmitted(true);
-    setEmail("");
-  };
+  function handleSubmit(e: React.FormEvent) {
+    e.preventDefault()
+    if (email) setSubscribed(true)
+  }
 
   return (
-    <Section size="xl">
-      <motion.div
-        initial={{ opacity: 0, y: 40 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.7 }}
-        className="mx-auto max-w-4xl"
-      >
-          <Glass variant="card" className="overflow-hidden p-0 shadow-glow-primary/10 md:flex md:items-stretch">
-            {/* Left: Form side */}
-            <div className="relative flex flex-col justify-center p-8 md:w-3/5 md:p-12">
-              <div className="pointer-events-none absolute -inset-40 bg-gradient-to-br from-primary/[0.02] via-transparent to-transparent blur-3xl" />
-              <div className="relative z-10">
-                <Heading
-                  badge="Stay Connected"
-                  badgeIcon={<Sparkles className="h-3.5 w-3.5" />}
-                  size="xl"
-                >
-                  Get early access to{" "}
-                  <span className="gradient-primary-text">AI features</span>
-                </Heading>
-                <p className="mt-3 text-sm leading-relaxed text-text-secondary">
-                  Be the first to know about new AI capabilities, product drops, and
-                  exclusive offers.
-                </p>
+    <section className="relative overflow-hidden py-24">
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(0,217,255,0.04),transparent_50%)]" />
 
-                <form onSubmit={handleSubmit} className="mt-6">
-                  <div className="flex gap-2">
+      <div className="container-wide">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="mx-auto max-w-2xl text-center"
+        >
+          <div className="relative overflow-hidden rounded-3xl border border-white/[0.06] bg-gradient-to-br from-white/[0.04] to-transparent p-1">
+            <div className="rounded-[23px] bg-[#0a0d12] px-8 py-12 md:px-12 md:py-16">
+              <div className="mx-auto mb-6 flex h-14 w-14 items-center justify-center rounded-2xl bg-primary/10">
+                <Sparkles className="h-7 w-7 text-primary" />
+              </div>
+
+              <h2 className="font-sans text-3xl font-bold tracking-tight text-white md:text-4xl">
+                Stay Ahead of the Curve
+              </h2>
+              <p className="mx-auto mt-3 max-w-md text-white/50">
+                Join the inner circle. Get AI-curated product drops, early access, and member-only pricing.
+              </p>
+
+              {subscribed ? (
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  className="mx-auto mt-8 flex max-w-sm items-center justify-center gap-3 rounded-xl border border-green-400/20 bg-green-400/5 px-6 py-4"
+                >
+                  <Check className="h-5 w-5 text-green-400" />
+                  <span className="text-sm text-green-400">You&apos;re in. Welcome to the future of shopping.</span>
+                </motion.div>
+              ) : (
+                <form onSubmit={handleSubmit} className="mx-auto mt-8 max-w-sm">
+                  <div className="relative flex items-center gap-2">
                     <div className="relative flex-1">
-                      <div className="pointer-events-none absolute inset-0 rounded-xl bg-gradient-to-r from-primary/5 to-secondary/5 opacity-0 transition-opacity duration-300 focus-within:opacity-100" />
                       <input
                         type="email"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         placeholder="Enter your email"
+                        className="w-full rounded-xl border border-white/10 bg-white/[0.03] px-4 py-3 text-sm text-white outline-none transition-all placeholder:text-white/30 focus:border-primary/40 focus:bg-white/[0.05]"
                         required
-                        disabled={submitted}
-                        className="relative w-full rounded-xl border border-border bg-surface px-4 py-3.5 text-sm text-text-primary placeholder:text-text-muted outline-none transition-all focus:border-primary/50 focus:ring-2 focus:ring-primary/20"
                       />
                     </div>
-                    <Button
+                    <motion.button
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
                       type="submit"
-                      disabled={submitted}
-                      size="lg"
-                      className="gap-2"
+                      className="flex items-center gap-2 rounded-xl bg-gradient-to-r from-primary to-blue-500 px-5 py-3 text-sm font-medium text-black transition-all hover:shadow-[0_0_20px_-5px_rgba(0,217,255,0.3)]"
                     >
-                      {submitted ? (
-                        <>
-                          <Check className="h-4 w-4" />
-                          Subscribed
-                        </>
-                      ) : (
-                        <>
-                          Subscribe
-                          <ArrowRight className="h-4 w-4" />
-                        </>
-                      )}
-                    </Button>
+                      Subscribe
+                      <ArrowRight className="h-4 w-4" />
+                    </motion.button>
                   </div>
                 </form>
+              )}
 
-                {submitted && (
-                  <motion.p
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    className="mt-4 flex items-center gap-2 text-sm text-success"
-                  >
-                    <Check className="h-4 w-4" />
-                    Welcome to NEXUS! Check your inbox for a confirmation.
-                  </motion.p>
-                )}
+              <div className="mt-8 flex items-center justify-center gap-6">
+                {benefits.map((benefit) => (
+                  <div key={benefit.text} className="flex items-center gap-1.5 text-xs text-white/30">
+                    <benefit.icon className="h-3 w-3 text-primary" />
+                    {benefit.text}
+                  </div>
+                ))}
               </div>
             </div>
-
-            {/* Right: Benefits */}
-            <div className="relative border-t border-border bg-gradient-to-br from-primary/[0.03] to-secondary/[0.03] p-8 md:w-2/5 md:border-l md:border-t-0 md:p-12">
-              <div className="relative z-10">
-                <p className="mb-6 text-sm font-semibold text-white">
-                  What you&apos;ll get:
-                </p>
-                <ul className="space-y-4">
-                  {benefits.map((benefit) => (
-                    <li key={benefit} className="flex items-start gap-3">
-                      <div className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-primary/10">
-                        <Check className="h-3 w-3 text-primary" />
-                      </div>
-                      <span className="text-sm text-text-secondary">{benefit}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-          </Glass>
-      </motion.div>
-    </Section>
-  );
+            <div className="absolute inset-0 rounded-3xl ring-1 ring-inset ring-white/[0.06]" />
+          </div>
+        </motion.div>
+      </div>
+    </section>
+  )
 }
