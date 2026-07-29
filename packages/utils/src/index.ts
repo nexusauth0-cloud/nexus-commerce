@@ -37,11 +37,20 @@ export function formatRelativeTime(date: Date | string): string {
 }
 
 export function slugify(str: string): string {
-  return str
-    .toLowerCase()
-    .replace(/[^\w\s-]/g, '')
-    .replace(/[\s_-]+/g, '-')
-    .replace(/^-+/, '').replace(/-+$/, '');
+  const allowed = new Set('abcdefghijklmnopqrstuvwxyz0123456789- ');
+  const chars: string[] = [];
+  for (const c of str.toLowerCase()) {
+    if (allowed.has(c)) {
+      chars.push(c === ' ' ? '-' : c);
+    }
+  }
+  let result = chars.join('');
+  while (result.includes('--')) {
+    result = result.replace('--', '-');
+  }
+  if (result.startsWith('-')) result = result.slice(1);
+  if (result.endsWith('-')) result = result.slice(0, -1);
+  return result;
 }
 
 export function truncate(str: string, length: number): string {
