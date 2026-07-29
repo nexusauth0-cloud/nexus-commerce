@@ -1,6 +1,7 @@
 import { Navbar } from "@/components/landing/navbar";
 import { Hero } from "@/components/landing/hero";
 import { Features } from "@/components/landing/features";
+import { AIExperience } from "@/components/landing/ai-experience";
 import { Collections } from "@/components/landing/collections";
 import { Testimonials } from "@/components/landing/testimonials";
 import { CTA } from "@/components/landing/cta";
@@ -15,6 +16,7 @@ export default function HomePage() {
       <main>
         <Hero />
         <Features />
+        <AIExperience />
         <Collections />
         <Testimonials />
         <CTA />
