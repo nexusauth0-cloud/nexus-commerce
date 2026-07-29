@@ -41,7 +41,7 @@ export function slugify(str: string): string {
     .toLowerCase()
     .replace(/[^\w\s-]/g, '')
     .replace(/[\s_-]+/g, '-')
-    .replace(/^-+|-+$/g, '');
+    .replace(/^-+/, '').replace(/-+$/, '');
 }
 
 export function truncate(str: string, length: number): string {
