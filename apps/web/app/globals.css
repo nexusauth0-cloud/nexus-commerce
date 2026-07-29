@@ -206,8 +206,20 @@
     transform: translateY(0);
   }
   50% {
-    transform: translateY(-10px);
+    transform: translateY(-8px);
   }
+}
+
+@utility animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+@utility animate-float-slow {
+  animation: float 8s ease-in-out infinite;
+}
+
+@utility animate-float-reverse {
+  animation: float 6s ease-in-out infinite reverse;
 }
 
 @keyframes shimmer {
