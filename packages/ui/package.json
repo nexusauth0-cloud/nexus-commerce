@@ -10,7 +10,21 @@
     "./card": "./src/card.tsx",
     "./badge": "./src/badge.tsx",
     "./input": "./src/input.tsx",
-    "./label": "./src/label.tsx"
+    "./label": "./src/label.tsx",
+    "./container": "./src/container.tsx",
+    "./section": "./src/section.tsx",
+    "./heading": "./src/heading.tsx",
+    "./glass": "./src/glass.tsx",
+    "./stat": "./src/stat.tsx",
+    "./skeleton": "./src/skeleton.tsx",
+    "./product-card": "./src/product-card.tsx",
+    "./feature-card": "./src/feature-card.tsx",
+    "./animated-background": "./src/animated-background.tsx",
+    "./cta-block": "./src/cta-block.tsx",
+    "./divider": "./src/divider.tsx",
+    "./avatar": "./src/avatar.tsx",
+    "./separator": "./src/separator.tsx",
+    "./scroll-area": "./src/scroll-area.tsx"
   },
   "scripts": {
     "lint": "echo 'noop'",
@@ -20,21 +34,22 @@
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   },
-  "dependencies": {
-    "@nexus/utils": "workspace:*",
+"dependencies": {
+    "@radix-ui/react-slot": "^1.1.0",
     "@radix-ui/react-avatar": "^1.1.0",
     "@radix-ui/react-dialog": "^1.1.0",
     "@radix-ui/react-dropdown-menu": "^2.1.0",
-    "@radix-ui/react-label": "^2.1.0",
-    "@radix-ui/react-scroll-area": "^1.2.0",
     "@radix-ui/react-select": "^2.1.0",
-    "@radix-ui/react-separator": "^1.1.0",
-    "@radix-ui/react-slot": "^1.1.0",
     "@radix-ui/react-tabs": "^1.1.0",
-    "@radix-ui/react-toast": "^1.2.0",
     "@radix-ui/react-tooltip": "^1.1.0",
+    "@radix-ui/react-toast": "^1.2.0",
+    "@radix-ui/react-label": "^2.1.0",
+    "@radix-ui/react-separator": "^1.1.0",
+    "@radix-ui/react-scroll-area": "^1.2.0",
+    "@nexus/utils": "workspace:*",
     "class-variance-authority": "^0.7.1",
-    "lucide-react": "^0.510.0"
+    "lucide-react": "^0.510.0",
+    "framer-motion": "^12.6.0"
   },
   "devDependencies": {
     "@types/react": "^19.2.17",

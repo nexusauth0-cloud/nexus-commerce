@@ -1,109 +1,156 @@
-'use client';
+"use client";
 
-import { motion } from 'framer-motion';
-import { Brain, Zap, Shield, Sparkles, BarChart3, Infinity } from 'lucide-react';
+import { motion } from "framer-motion";
+import {
+  Brain,
+  Zap,
+  Shield,
+  Sparkles,
+  BarChart3,
+  Infinity,
+  Search,
+  MessageCircle,
+} from "lucide-react";
+import { Section } from "@nexus/ui/section";
+import { Heading } from "@nexus/ui/heading";
+import { FeatureCard } from "@nexus/ui/feature-card";
+import { Glass } from "@nexus/ui/glass";
 
-const features = [
+const bentoFeatures = [
   {
-    icon: Brain,
-    title: 'AI-Powered Shopping',
+    icon: <Brain className="h-6 w-6 text-white" />,
+    title: "AI-Powered Shopping",
     description:
-      'Our intelligent engine learns your preferences and delivers personalized product recommendations that improve over time.',
-    gradient: 'from-primary to-secondary',
+      "Our intelligent engine learns preferences and delivers personalized product recommendations that improve over time.",
+    gradient: "from-primary to-secondary",
+    bentoSize: "2x1" as const,
   },
   {
-    icon: Zap,
-    title: 'Lightning Fast',
-    description:
-      'Built on Next.js 15 with edge computing, streaming, and instant page transitions for a native-app feel.',
-    gradient: 'from-secondary to-primary',
+    icon: <Zap className="h-6 w-6 text-white" />,
+    title: "Lightning Fast",
+    description: "Built on Next.js 15 with edge computing and streaming.",
+    gradient: "from-secondary to-primary",
+    bentoSize: "1x1" as const,
   },
   {
-    icon: Shield,
-    title: 'Enterprise Security',
-    description:
-      'Bank-grade encryption, SOC 2 compliance, and advanced fraud detection keep every transaction safe.',
-    gradient: 'from-success to-primary',
+    icon: <Shield className="h-6 w-6 text-white" />,
+    title: "Enterprise Security",
+    description: "Bank-grade encryption and advanced fraud detection.",
+    gradient: "from-success to-primary",
+    bentoSize: "1x1" as const,
   },
   {
-    icon: Sparkles,
-    title: 'Smart Search',
+    icon: <Search className="h-6 w-6 text-white" />,
+    title: "Smart Search",
     description:
-      "Find exactly what you need with natural language queries. 'A laptop for gaming under $1500' returns perfect matches instantly.",
-    gradient: 'from-warning to-secondary',
+      "Natural language queries. 'A laptop for gaming under $1500' finds perfect matches instantly.",
+    gradient: "from-warning to-secondary",
+    bentoSize: "1x1" as const,
   },
   {
-    icon: BarChart3,
-    title: 'Real-time Analytics',
+    icon: <BarChart3 className="h-6 w-6 text-white" />,
+    title: "Real-time Analytics",
     description:
-      'Comprehensive dashboards with real-time data on sales, traffic, conversion rates, and customer behavior.',
-    gradient: 'from-primary to-success',
+      "Comprehensive dashboards with real-time data on sales and customer behavior.",
+    gradient: "from-primary to-success",
+    bentoSize: "1x1" as const,
   },
   {
-    icon: Infinity,
-    title: 'Unlimited Scalability',
+    icon: <Infinity className="h-6 w-6 text-white" />,
+    title: "Unlimited Scale",
+    description: "From hundreds to millions of products without skipping a beat.",
+    gradient: "from-secondary to-warning",
+    bentoSize: "1x1" as const,
+  },
+  {
+    icon: <MessageCircle className="h-6 w-6 text-white" />,
+    title: "AI Support",
     description:
-      'Cloud-native architecture that scales effortlessly from hundreds to millions of products without skipping a beat.',
-    gradient: 'from-secondary to-warning',
+      "24/7 intelligent customer support that knows your entire catalog.",
+    gradient: "from-primary to-secondary",
+    bentoSize: "1x1" as const,
+  },
+  {
+    icon: <Sparkles className="h-6 w-6 text-white" />,
+    title: "Automated Merchandising",
+    description: "AI-driven product placement and collection generation.",
+    gradient: "from-secondary to-primary",
+    bentoSize: "1x1" as const,
   },
 ];
 
 export function Features() {
   return (
-    <section className="relative py-32">
-      <div className="container">
-        {/* Section header */}
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-100px' }}
-          transition={{ duration: 0.7 }}
-          className="mx-auto max-w-3xl text-center"
+    <Section size="xl" withGlow>
+      <motion.div
+        initial={{ opacity: 0, y: 40 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-100px" }}
+        transition={{ duration: 0.7 }}
+        className="mx-auto max-w-3xl text-center"
+      >
+        <Heading
+          badge="Why NEXUS"
+          badgeIcon={<Sparkles className="h-3.5 w-3.5" />}
+          size="3xl"
+          className="text-center"
         >
-          <span className="text-primary mb-4 inline-block text-xs font-semibold uppercase tracking-widest">
-            Why NEXUS
-          </span>
-          <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl md:text-5xl">
-            Built for the <span className="gradient-primary-text">next generation</span> of commerce
-          </h2>
-          <p className="text-text-secondary mt-4 text-lg">
-            Every feature is crafted to deliver an unparalleled shopping experience that drives
-            growth and customer satisfaction.
-          </p>
-        </motion.div>
+          Built for the{" "}
+          <span className="gradient-primary-text">next generation</span> of
+          commerce
+        </Heading>
+        <p className="mt-4 text-lg text-text-secondary">
+          Every feature crafted to deliver an unparalleled shopping experience
+          that drives growth and customer satisfaction.
+        </p>
+      </motion.div>
 
-        {/* Features grid */}
-        <div className="mt-16 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {features.map((feature, index) => (
-            <motion.div
-              key={feature.title}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: '-50px' }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="border-border bg-card hover:border-border-hover hover:bg-surface-hover group relative overflow-hidden rounded-2xl border p-8 transition-all duration-300"
-            >
-              {/* Gradient accent */}
-              <div
-                className={`absolute -right-20 -top-20 h-40 w-40 rounded-full bg-gradient-to-br ${feature.gradient} opacity-0 blur-3xl transition-opacity duration-500 group-hover:opacity-10`}
-              />
+      <div className="mt-16 grid grid-cols-2 gap-4 md:grid-cols-3 md:gap-6">
+        {bentoFeatures.map((feature, index) => (
+          <FeatureCard
+            key={feature.title}
+            icon={feature.icon}
+            title={feature.title}
+            description={feature.description}
+            gradient={feature.gradient}
+            variant="bento"
+            bentoSize={feature.bentoSize}
+          />
+        ))}
 
-              <div className="relative z-10">
-                <div
-                  className={`mb-5 inline-flex rounded-xl bg-gradient-to-br ${feature.gradient} p-3`}
-                >
-                  <feature.icon className="h-6 w-6 text-white" />
-                </div>
-                <h3 className="mb-3 text-lg font-semibold text-white">{feature.title}</h3>
-                <p className="text-text-secondary leading-relaxed">{feature.description}</p>
+        {/* Code stats glass card */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-50px" }}
+          transition={{ duration: 0.5, delay: 0.7 }}
+          className="col-span-2 row-span-1 md:col-span-1"
+        >
+          <Glass
+            variant="card"
+            hover
+            className="flex h-full flex-col items-center justify-center p-8 text-center"
+          >
+            <div className="mb-4 flex items-center gap-2">
+              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10">
+                <BarChart3 className="h-5 w-5 text-primary" />
               </div>
-
-              {/* Hover shimmer */}
-              <div className="pointer-events-none absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/5 to-transparent transition-transform duration-700 group-hover:translate-x-full" />
-            </motion.div>
-          ))}
-        </div>
+            </div>
+            <div className="text-4xl font-bold text-white">99.9%</div>
+            <p className="mt-2 text-sm text-text-secondary">Platform Uptime</p>
+            <div className="mt-4 flex gap-1">
+              {["S", "O", "C", "2"].map((letter, i) => (
+                <span
+                  key={i}
+                  className="rounded-md border border-border bg-surface px-2 py-1 text-[10px] font-bold tracking-wider text-text-secondary"
+                >
+                  {letter}
+                </span>
+              ))}
+            </div>
+          </Glass>
+        </motion.div>
       </div>
-    </section>
+    </Section>
   );
 }
