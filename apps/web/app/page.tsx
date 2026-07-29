@@ -4,6 +4,7 @@ import { Features } from "@/components/landing/features";
 import { AIExperience } from "@/components/landing/ai-experience";
 import { Collections } from "@/components/landing/collections";
 import { Testimonials } from "@/components/landing/testimonials";
+import { LiveDashboard } from "@/components/landing/live-dashboard";
 import { CTA } from "@/components/landing/cta";
 import { Newsletter } from "@/components/landing/newsletter";
 import { Footer } from "@/components/landing/footer";
@@ -19,6 +20,7 @@ export default function HomePage() {
         <AIExperience />
         <Collections />
         <Testimonials />
+        <LiveDashboard />
         <CTA />
         <Newsletter />
       </main>
