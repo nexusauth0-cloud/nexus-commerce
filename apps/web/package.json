@@ -15,7 +15,7 @@
     "@nexus/ui": "workspace:*",
     "@nexus/utils": "workspace:*",
     "@nexus/database": "workspace:*",
-    "@auth/core": "^0.37.0",
+    "@auth/core": "^0.41.3",
     "@nexus/auth": "workspace:*",
     "@nexus/types": "workspace:*",
     "framer-motion": "^12.6.0",

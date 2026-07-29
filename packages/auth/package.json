@@ -13,7 +13,7 @@
     "clean": "echo 'noop'"
   },
   "dependencies": {
-    "@auth/core": "^0.37.0",
+    "@auth/core": "^0.41.3",
     "@auth/prisma-adapter": "^2.8.0",
     "@nexus/database": "workspace:*",
     "bcryptjs": "^3.0.0",
