@@ -1,0 +1,43 @@
+{
+  "name": "nexus-commerce",
+  "private": true,
+  "version": "0.1.0",
+  "description": "The Next Generation AI Commerce Platform",
+  "scripts": {
+    "dev": "concurrently \"pnpm --filter @nexus/web dev\" \"pnpm --filter @nexus/admin dev\"",
+    "dev:web": "pnpm --filter @nexus/web dev",
+    "dev:admin": "pnpm --filter @nexus/admin dev",
+    "build": "turbo build",
+    "start": "turbo start",
+    "lint": "turbo lint",
+    "clean": "turbo clean",
+    "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,css,md}\"",
+    "format:check": "prettier --check \"**/*.{ts,tsx,js,jsx,json,css,md}\"",
+    "db:generate": "pnpm --filter @nexus/database db:generate",
+    "db:push": "pnpm --filter @nexus/database db:push",
+    "db:studio": "pnpm --filter @nexus/database db:studio",
+    "prepare": "husky"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.0",
+    "turbo": "^2.5.0",
+    "husky": "^9.1.0",
+    "lint-staged": "^15.5.0",
+    "prettier": "^3.5.0",
+    "prettier-plugin-tailwindcss": "^0.6.0",
+    "typescript": "^5.8.0"
+  },
+  "lint-staged": {
+    "*.{ts,tsx,js,jsx}": [
+      "prettier --write",
+      "eslint --fix"
+    ],
+    "*.{json,css,md}": [
+      "prettier --write"
+    ]
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "packageManager": "pnpm@11.17.0"
+}
